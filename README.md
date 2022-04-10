@@ -1,0 +1,1 @@
+This project is used in assignments in the course "Webbapplikationer för mobila enheter" (DV1609) at BTH.
