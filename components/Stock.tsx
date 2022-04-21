@@ -1,30 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Text, View } from 'react-native';
 import config from "../config/config.json";
+import productModel from "../models/products.ts";
+import { Typography, Base } from '../styles';
 
-function StockList() {
-    const [products, setProducts] = useState([]);
-  
-    useEffect(() => {
-      fetch(`${config.base_url}/products?api_key=${config.api_key}`)
-        .then(response => response.json())
-        .then(result => setProducts(result.data));
-    }, []);
+function StockList({ products, setProducts }) {
+	useEffect(async () => {
+		setProducts(await productModel.getProducts());
+	}, []);
 
-    const list = products.map((product, index) => <Text key={index}>{ product.name } - { product.stock }</Text>);
-  
-    return (
-      <View>
-        {list}
-      </View>
-    );
-  }
+	const list = products.map((product, index) => {
+		return <Text
+			key={index}
+			style={{ ...Typography.normal }}
+		>
+			{product.name} - {product.stock}
+		</Text>
+	});
+	return (
+		<View>
+			{list}
+		</View>
+	);
+}
 
-export default function Stock() {
-  return (
-    <View>
-      <Text style={{color: '#333', fontSize: 24}}>Lagerförteckning</Text>
-      <StockList />
-    </View>
-  );
+export default function Stock({ products, setProducts }) {
+	return (
+		<View>
+			<Text style={Typography.header3}>Lagerförteckning</Text>
+			<StockList products={products} setProducts={setProducts} />
+		</View>
+	);
 }
