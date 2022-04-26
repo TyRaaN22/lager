@@ -10,7 +10,6 @@ const productModel = {
     },
 
     updateProduct: async function updateProduct(product) {
-        console.log(product);
         try {
             product.api_key = config.api_key;
 

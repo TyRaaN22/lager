@@ -5,12 +5,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState, useEffect } from 'react';
 import Home from "./components/Home.tsx";
 import Pick from "./components/Pick.tsx";
+import Deliveries from "./components/Deliveries.tsx"
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const routeIcons = {
   "Lager": "home",
   "Plock": "list",
+  "Leveranser": "cube",
 };
 
 const Tab = createBottomTabNavigator();
@@ -35,6 +37,9 @@ export default function App() {
           </Tab.Screen>
           <Tab.Screen name="Plock">
             {() => <Pick products={products} setProducts={setProducts} />}
+          </Tab.Screen>
+          <Tab.Screen name="Leveranser">
+            {() => <Deliveries products={products} setProducts={setProducts} />}
           </Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>

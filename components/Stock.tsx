@@ -27,7 +27,7 @@ function StockList({ products, setProducts }) {
 export default function Stock({ products, setProducts }) {
 	return (
 		<View>
-			<Text style={Typography.header3}>Lagerförteckning</Text>
+			<Text style={Typography.header2}>Lagerförteckning</Text>
 			<StockList products={products} setProducts={setProducts} />
 		</View>
 	);
