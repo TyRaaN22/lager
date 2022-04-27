@@ -73,17 +73,19 @@ export default function DeliveryForm({ navigation, setProducts }) {
     }
 
     async function addDelivery() {
-        await deliveryModel.addDelivery(delivery);
+        if (delivery.product_id && delivery.amount && delivery.delivery_date) {
+            await deliveryModel.addDelivery(delivery);
 
-        const updatedProduct = {
-            ...currentProduct,
-            stock: (currentProduct.stock || 0) + (delivery.amount || 0)
-        };
+            const updatedProduct = {
+                ...currentProduct,
+                stock: (currentProduct.stock || 0) + (delivery.amount || 0)
+            };
 
-        await productModel.updateProduct(updatedProduct);
-        setProducts(await productModel.getProducts());
+            await productModel.updateProduct(updatedProduct);
+            setProducts(await productModel.getProducts());
 
-        navigation.navigate("List", { reload: true });
+            navigation.navigate("List", { reload: true });
+        }
     }
 
     return (

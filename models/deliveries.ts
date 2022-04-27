@@ -10,7 +10,6 @@ const deliveryModel = {
     },
     addDelivery: async function addDelivery(delivery: Partial<Delivery>) {
         delivery.api_key = config.api_key
-        console.log(delivery);
         try {
             await fetch(`${config.base_url}/deliveries`, {
                 body:JSON.stringify(delivery),

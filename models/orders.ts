@@ -34,7 +34,7 @@ const orderModel = {
     },
     updateOrder: async function updateOrder(order: Partial<Order>) {
         try {
-            await fetch(`${config.base_url}/orders?api_key=${config.api_key}`, {
+            await fetch(`${config.base_url}/orders`, {
                 body:JSON.stringify(order),
                 headers: {
                     'content-type': 'application/json'

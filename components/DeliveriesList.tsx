@@ -7,7 +7,6 @@ export default function DeliveriesList({ route, navigation }) {
 
     const { reload } = route.params || false;
     const [allDeliveries, setAllDeliveries] = useState([]);
-    const hasDeliveries = false;
 
     if (reload) {
         reloadDeliveries();
