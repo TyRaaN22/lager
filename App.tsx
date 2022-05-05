@@ -7,6 +7,7 @@ import Home from "./components/Home.tsx";
 import Pick from "./components/Pick.tsx";
 import Deliveries from "./components/Deliveries.tsx"
 import Invoices from "./components/invoice/Invoices.tsx"
+import Dispatches from "./components/dispatch/Dispatches.tsx"
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -19,12 +20,14 @@ const routeIcons = {
   "Leveranser": "cube",
   "Logga in": "person",
   "Faktura": "file-tray-full-outline",
+  "Utleveranser": "earth",
 };
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
 
   useEffect(async () => {
@@ -48,7 +51,7 @@ export default function App() {
             {() => <Home products={products} setProducts={setProducts} />}
           </Tab.Screen>
           <Tab.Screen name="Plock">
-            {() => <Pick products={products} setProducts={setProducts} />}
+            {() => <Pick products={products} setProducts={setProducts} orders={orders} setOrders={setOrders} />}
           </Tab.Screen>
           <Tab.Screen name="Leveranser">
             {() => <Deliveries products={products} setProducts={setProducts} />}
@@ -61,6 +64,9 @@ export default function App() {
               {() => <Auth setIsLoggedIn={setIsLoggedIn} />}
             </Tab.Screen>
           }
+          <Tab.Screen name="Utleveranser">
+            {() => <Dispatches orders={orders} setOrders={setOrders} />}
+          </Tab.Screen>
         </Tab.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />

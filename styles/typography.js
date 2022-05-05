@@ -17,7 +17,7 @@ export const header3 = {
 
 export const normal = {
     fontSize: 20,
-    marginBottom: 28,
+    marginBottom: 20,
 };
 
 export const label = {

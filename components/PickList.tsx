@@ -3,7 +3,7 @@ import { View, Text, Button } from "react-native";
 import orderModel from "../models/orders.ts";
 import productModel from "../models/products.ts";
 
-export default function PickList({ route, navigation, setProducts }) {
+export default function PickList({ route, navigation, setProducts, setOrders }) {
     const { order } = route.params;
     const [productsList, setProductsList] = useState([]);
 
@@ -15,6 +15,7 @@ export default function PickList({ route, navigation, setProducts }) {
         if (orderItemPickable) {
             await orderModel.pickOrder(order);
             setProducts(await productModel.getProducts());
+            setOrders(await orderModel.getOrders());
             navigation.navigate("List", {reload: true});
         }
     }
