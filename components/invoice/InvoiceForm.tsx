@@ -39,7 +39,9 @@ export default function InvoiceForm({ navigation }) {
                         order_id: itemValue,
                     });
                     props.setCurrentOrder(ordersHash[itemValue]);
-                }}>
+                }}
+                
+                >
                 {itemsList}
             </Picker>
         );
@@ -70,6 +72,7 @@ export default function InvoiceForm({ navigation }) {
                             setShow(false);
                         }}
                         value={dropDownDate}
+                        
                     />
                 )}
             </View>

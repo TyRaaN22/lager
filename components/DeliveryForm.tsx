@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { showMessage } from 'react-native-flash-message';
 import { Picker } from '@react-native-picker/picker';
 import { Platform, ScrollView, Text, TextInput, Button, View } from 'react-native';
 import { Base, Typography, Forms } from '../styles';
@@ -33,7 +34,9 @@ export default function DeliveryForm({ navigation, setProducts }) {
                 onValueChange={(itemValue) => {
                     props.setDelivery({ ...props.delivery, product_id: itemValue });
                     props.setCurrentProduct(productsHash[itemValue]);
-                }}>
+                }}
+                testID="product-picker"
+                >
                 {itemsList}
             </Picker>
         );
@@ -48,14 +51,15 @@ export default function DeliveryForm({ navigation, setProducts }) {
         };
     
         return (
-            <View>
+            <View
+                testID="date-picker"
+            >
                 {Platform.OS === "android" && (
                     <Button onPress={showDatePicker} title="Visa datumväljare" />
                 )}
                 {(show || Platform.OS === "ios") && (
                     <DateTimePicker
                         onChange={(event, date) => {
-                            console.log(date);
                             setDropDownDate(date);
 
                             props.setDelivery({
@@ -74,17 +78,29 @@ export default function DeliveryForm({ navigation, setProducts }) {
 
     async function addDelivery() {
         if (delivery.product_id && delivery.amount && delivery.delivery_date) {
-            await deliveryModel.addDelivery(delivery);
+            let result = await deliveryModel.addDelivery(delivery);
 
-            const updatedProduct = {
-                ...currentProduct,
-                stock: (currentProduct.stock || 0) + (delivery.amount || 0)
-            };
+            if (result.type === "success") {
+                const updatedProduct = {
+                    ...currentProduct,
+                    stock: (currentProduct.stock || 0) + (delivery.amount || 0)
+                };
+                await productModel.updateProduct(updatedProduct);
+                setProducts(await productModel.getProducts());
 
-            await productModel.updateProduct(updatedProduct);
-            setProducts(await productModel.getProducts());
-
-            navigation.navigate("List", { reload: true });
+                navigation.navigate("List", { reload: true });
+            }
+            showMessage({
+                message: result.title,
+                description: result.message,
+                type: result.type,
+            });
+        } else {
+            showMessage({
+                message: "saknas",
+                description: "Produktnamn, antal och/eller datum har ej valts.",
+                type: "warning",
+            })
         }
     }
 
@@ -105,7 +121,7 @@ export default function DeliveryForm({ navigation, setProducts }) {
                 setDelivery={setDelivery}
             />
 
-            <Text style={ Typography.label }>Kommentar</Text>
+            <Text style={ Typography.label }>Kommentar (Valfri)</Text>
             <TextInput
                 style={Forms.input}
                 onChangeText={(content: string) => {
@@ -129,6 +145,7 @@ export default function DeliveryForm({ navigation, setProducts }) {
                 onPress={() => {
                     addDelivery();
                 }}
+                accessibilityLabel={'Lägg till en leverans genom att klicka'}
             />
         </ScrollView>
     );

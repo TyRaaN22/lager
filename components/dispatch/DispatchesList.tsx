@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Text, Button } from "react-native";
 import orderModel from '../../models/orders.ts';
-import Order from '../../interfaces/order.ts';
 import { Typography } from '../../styles';
 
 export default function DispatchesList({ route, navigation, orders, setOrders}) {

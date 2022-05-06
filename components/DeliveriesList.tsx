@@ -38,6 +38,7 @@ export default function DeliveriesList({ route, navigation }) {
                 onPress={() => {
                     navigation.navigate('Form');
                 }}
+                accessibilityLabel={'Lägg till en inleverans genom att klicka'}
             />
         </ScrollView>
     );
